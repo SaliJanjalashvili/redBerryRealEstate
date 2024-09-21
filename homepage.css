@@ -559,3 +559,62 @@ h1 {
 .success .check_icon path {
     stroke: var(--validation-color);
 }
+
+/* listings */
+
+#all_listings_container {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+    margin-top: 77px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 77px;
+}
+
+.homepage_listing_contanier {
+    width: 384px;
+    height: fit-content;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+}
+
+.homepage_listing_contanier:hover {
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+.is_rental_sign {
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    height: fit-content;
+    width: 90px;
+    padding: 6px;
+    background-color: #02152680;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    z-index: 996;
+}
+
+.listing_details {
+    height: 148px;
+    padding: 22px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0px 0px 14px 14px;
+    position: relative;
+    font-size: 16px;
+    font-weight: 400;
+}

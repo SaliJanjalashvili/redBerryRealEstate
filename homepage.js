@@ -587,3 +587,83 @@ deleteIcon.addEventListener('click', function() {
   deleteIcon.style.display = 'none';
   uploadIcon.style.display = 'block';
 });
+
+/* generate listings */
+
+document.addEventListener('DOMContentLoaded', function() {
+    const token = '9d0c401a-9398-4cf8-ac8b-32b0f3121fc2';
+    const apiPropertiesURL = 'https://api.real-estate-manager.redberryinternship.ge/api/real-estates';
+    const apiCitiesURL = 'https://api.real-estate-manager.redberryinternship.ge/api/cities';
+  
+    
+    // Fetch cities from the API
+    fetch(apiCitiesURL, {
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(citiesData => {
+      const cityMap = new Map();
+      citiesData.forEach(city => {
+        cityMap.set(city.id, city.name);
+      });
+  
+      // Fetch properties from the API
+      fetch(apiPropertiesURL, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => response.json())
+      .then(propertiesData => {
+        const propertiesContainer = document.getElementById('all_listings_container');
+  
+        if (propertiesData && propertiesData.length > 0) {
+          propertiesData.forEach(property => {
+  
+            const propertyDiv = document.createElement('div');
+  
+            const formattedPrice = property.price.toLocaleString('en-US').replace(/,/g, ' ');
+  
+            const cityName = cityMap.get(property.city_id);
+  
+            propertyDiv.innerHTML = `
+              <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image" >
+              <div class="is_rental_sign">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
+              <div class="listing_details">
+                <div>
+                  <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 6px; color: #021526">
+                  ${formattedPrice} ₾</h4>
+                  <p style="display: flex; align-items: center; gap: 4px">
+                  <img src="/icons/icon_location.svg" />
+                  ${cityName}, ${property.address}</p>
+                </div>
+                <div style="display: flex; gap: 32px">
+                  <p style="display: flex; align-items: center; gap: 5px">
+                  <img src="/icons/icon_bed.svg" />${property.bedrooms}</p>
+                  <p style="display: flex; align-items: center; gap: 5px">
+                  <img src="/icons/icon_area.svg" />${property.area} მ²</p>
+                  <p style="display: flex; align-items: center; gap: 5px">
+                  <img src="/icons/icon_zip.svg" />${property.zip_code}</p>
+                </div>
+              </div>
+            `;
+  
+            propertyDiv.classList.add('homepage_listing_contanier');
+            propertiesContainer.appendChild(propertyDiv);
+  
+            propertyDiv.addEventListener('click', () => {
+              window.location.href = `/Listing-page/listingPage.html?id=${property.id}`;
+            });
+          });
+        } else {
+          propertiesContainer.innerHTML = '<p>No properties found.</p>';
+        }
+      });
+    });
+  });
