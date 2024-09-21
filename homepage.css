@@ -364,3 +364,198 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 14px; 
     font-weight: 500;
 }
+
+/* ADD AGENT MODAL */
+
+h1 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 38.4px;
+    color: var(--text-main-color);
+}
+
+.add_agent_modal {
+    width: 1009px;
+    height: 784px;
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 148px;
+    left: 455px;
+    z-index: 999;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 87px 105px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 61px;
+    color: var(--text-main-color);
+}
+
+.add_agent_form {
+    height: fit-content;
+}
+
+.input_fileds_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+    height: 370px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 384px;
+    height: 85px;
+}
+
+.container label{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16.8px;
+    color: var(--text-main-color);
+}
+
+.container input{
+    width: 384px;
+    height: 42px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.container .message{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16.8px;
+}
+
+.container.large {
+    width: 100%;
+    height: 144px;
+}
+
+.upload_photo_container {
+    position: relative;
+    width: 799px;
+    height: 120px;
+    border: 1px dashed var(--text-main-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+#upload_photo {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.upload_icon {
+    position: relative;
+    z-index: 0;
+}
+
+.uploaded_image {
+    position: relative;
+    z-index: 0;
+    max-width: 100px; 
+    max-height: 100px; 
+    object-fit: cover; 
+}
+
+.delete_icon {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    cursor: pointer;
+    display: none;
+}
+
+/* BUTTONS FOR ADD AGENT MODAL */
+
+.add_agent_form_button_container {
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    margin-top: 94px;
+}
+
+.add_agent_form_button {
+    position: relative;
+    cursor: pointer;
+    padding: 10px 16px;
+    height: 47px;
+    width: fit-content;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.add_agent_form_button.cancel {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.add_agent_form_button.cancel:hover, .add_agent_form_button.add_agent {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.add_agent_form_button.add_agent:hover {
+    background-color: var(--hover-primary-color);
+}
+
+/* DARKENED BACKGROUND OVERLAY */
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #02152657;
+    z-index: 998;
+    backdrop-filter: blur(4px);
+}
+
+/* VALIDATION STYLES */
+
+.error {
+    color: var(--primary-color);
+}
+
+.input_field.error {
+    border-color: var(--primary-color);
+    color: var(--text-main-color);
+}
+
+.upload_photo_container.error {
+    border-color: var(--primary-color);
+}
+
+.error .check_icon path {
+    stroke: var(--primary-color);
+}
+
+.success {
+    color: var(--validation-color);
+}
+
+.success .check_icon path {
+    stroke: var(--validation-color);
+}

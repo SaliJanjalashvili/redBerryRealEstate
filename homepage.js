@@ -351,3 +351,239 @@ function generateRegionChips() {
   }
   
   document.querySelector('.clear_all_chips').addEventListener('click', removeAllChips);
+
+  // ADD AGENT MODAL
+
+const homepageAddAgentButton = document.querySelector('.homepage_button.add_agent');
+const addAgentModal = document.querySelector('.add_agent_modal');
+const overlay = document.getElementById('overlay');
+const cancelButton = document.querySelector('.add_agent_form_button.cancel');
+
+function showModal() {
+  addAgentModal.style.display = 'flex';
+  overlay.style.display = 'block';
+}
+
+function hideModal() {
+  addAgentModal.style.display = 'none';
+  overlay.style.display = 'none';
+}
+
+homepageAddAgentButton.addEventListener('click', function() {
+  showModal();
+  sessionStorage.setItem('isOpen', 'true');
+});
+
+overlay.addEventListener('click', function() {
+  hideModal();
+  sessionStorage.setItem('isOpen', 'false');
+});
+
+cancelButton.addEventListener('click', function() {
+  hideModal();
+  sessionStorage.setItem('isOpen', 'false');
+});
+
+if(sessionStorage.getItem('isOpen') === 'true'){
+  showModal();
+};
+
+// ADD AGENT MODAL VALIDATION
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('form');
+  const nameInput = document.getElementById('name');
+  const surnameInput = document.getElementById('surname');
+  const emailInput = document.getElementById('email');
+  const mobileInput = document.getElementById('mobile_number');
+  const uploadPhotoInput = document.getElementById('upload_photo');
+
+
+  nameInput.addEventListener('input', function () {
+
+    if (nameInput.value.trim().length < 2) {
+      showError('name_message', 'name', 'ჩაწერეთ ვალიდური მონაცემები');
+    } else {
+      hideError('name_message', 'name', 'მინიმუმ ორი სიმბოლო');
+    };
+  });
+
+  surnameInput.addEventListener('input', function () {
+    if (surnameInput.value.trim().length < 2) {
+      showError('surname_message', 'surname', 'ჩაწერეთ ვალიდური მონაცემები');
+    } else {
+      hideError('surname_message', 'surname', 'მინიმუმ ორი სიმბოლო');
+    };
+  });
+
+  emailInput.addEventListener('input', function () {
+    if (!emailInput.value.endsWith('@redberry.ge')) {
+      showError('email_message', 'email', 'ჩაწერეთ ვალიდური მონაცემები');
+    } else {
+      hideError('email_message', 'email', 'გამოიყენეთ @redberry.ge ფოსტა');
+    };
+  });
+
+  mobileInput.addEventListener('input', function () {
+    const mobilePattern = /^5\d{8}$/;
+    if (!mobilePattern.test(mobileInput.value.trim())) {
+      showError('mobile_number_message', 'mobile_number', 'ჩაწერეთ ვალიდური მონაცემები');
+    } else {
+      hideError('mobile_number_message', 'mobile_number', 'მხოლოდ რიცხვები');
+    };
+  });
+
+  uploadPhotoInput.addEventListener('change', function () {
+    if (uploadPhotoInput.files.length === 0) {
+      showError('photo_message', 'upload_photo_container', 'ატვირთეთ ფოტო');
+    } else {
+      hideError('photo_message', 'upload_photo_container', '');
+    };
+  });
+
+  // Form submit validation
+  document.querySelector('.add_agent_form_button.add_agent').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const token = '9d0c401a-9398-4cf8-ac8b-32b0f3121fc2';
+
+    let formIsValid = true;
+
+    // Validate name
+    if (nameInput.value.trim().length < 2) {
+      showError('name_message', 'name', 'ჩაწერეთ ვალიდური მონაცემები');
+      formIsValid = false;
+    } else {
+      hideError('name_message', 'name', 'მინიმუმ ორი სიმბოლო');
+    };
+
+    // Validate surname
+    if (surnameInput.value.trim().length < 2) {
+      showError('surname_message', 'surname', 'ჩაწერეთ ვალიდური მონაცემები');
+      formIsValid = false;
+    } else {
+      hideError('surname_message', 'surname', 'მინიმუმ ორი სიმბოლო');
+    };
+
+    // Validate email
+    if (!emailInput.value.endsWith('@redberry.ge')) {
+      showError('email_message', 'email', 'ჩაწერეთ ვალიდური მონაცემები');
+      formIsValid = false;
+    } else {
+      hideError('email_message', 'email', 'გამოიყენეთ @redberry.ge ფოსტა');
+    };
+
+    // Validate mobile number
+    const mobilePattern = /^5\d{8}$/;
+    if (!mobilePattern.test(mobileInput.value.trim())) {
+      showError('mobile_number_message', 'mobile_number', 'ჩაწერეთ ვალიდური მონაცემები');
+      formIsValid = false;
+    } else {
+      hideError('mobile_number_message', 'mobile_number', 'მხოლოდ რიცხვები');
+    };
+
+    // Validate photo
+    if (uploadPhotoInput.files.length === 0) {
+      showError('photo_message', 'upload_photo_container', 'ატვირთეთ ფოტო');
+      formIsValid = false;
+    } else {
+      hideError('photo_message', 'upload_photo_container', '');
+    };
+
+    if (formIsValid) {
+      const formData = new FormData();
+      formData.append('name', nameInput.value);
+      formData.append('surname', surnameInput.value);
+      formData.append('email', emailInput.value);
+      formData.append('phone', mobileInput.value);
+      formData.append('avatar', uploadPhotoInput.files[0]);
+
+      fetch('https://api.real-estate-manager.redberryinternship.ge/api/agents', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      document.getElementById('add_agent_form').reset();
+      hideModal();
+    };
+  });
+
+  function showError(messageElementId, inputElementId, errorMessage) {
+    const messageElement = document.getElementById(messageElementId);
+    const inputElement = document.getElementById(inputElementId);
+    inputElement.classList.add('error');
+    messageElement.classList.remove('success');
+    messageElement.classList.add('error');
+
+    let textNodeFound = false;
+
+    messageElement.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim().length > 0) {
+          node.nodeValue = ` ${errorMessage}`; 
+          textNodeFound = true;
+      }
+    });
+
+    if (!textNodeFound) {
+      messageElement.appendChild(document.createTextNode(` ${errorMessage}`));
+    }
+  };
+
+  function hideError(messageElementId, inputElementId, successMessage) {
+    const messageElement = document.getElementById(messageElementId);
+    const inputElement = document.getElementById(inputElementId);
+    inputElement.classList.remove('error');
+    messageElement.classList.remove('error');
+    messageElement.classList.add('success');
+
+    messageElement.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim().length > 0) {
+          node.nodeValue = ` ${successMessage}`; 
+      }
+    });
+  };
+});
+
+/* uploading image */
+
+const uploadPhotoInput = document.getElementById('upload_photo');
+const uploadIcon = document.getElementById('upload_icon');
+const uploadedImage = document.getElementById('uploaded_image');
+const deleteIcon = document.getElementById('delete_icon');
+const uploadPhotoContainer = document.querySelector('.upload_photo_container');
+
+uploadPhotoContainer.addEventListener('click', () => {
+  if(!uploadedImage.src || !uploadPhotoInput.value){
+    uploadPhotoInput.click();
+  }
+})
+
+uploadPhotoInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            
+          uploadIcon.style.display = 'none';
+
+          uploadedImage.src = e.target.result;
+          uploadedImage.style.display = 'block';
+          deleteIcon.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+deleteIcon.addEventListener('click', function() {
+  uploadedImage.style.display = 'none';
+  uploadPhotoInput.value = '';
+  uploadedImage.src = ''; 
+  deleteIcon.style.display = 'none';
+  uploadIcon.style.display = 'block';
+});
