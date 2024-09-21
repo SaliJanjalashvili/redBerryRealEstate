@@ -1,0 +1,70 @@
+:root {
+    --primary-color: #F93B1D;
+    --hover-primary-color: #DF3014;
+    --secondary-color: #808A93;
+    --validation-color: #45A849;
+    --text-main-color: #021526;
+    --border-color: #DBDBDB;
+    --hover-filter-color: #F3F3F3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    width: 1920px;
+    height: 1080px;
+    border-right: 1px solid var(--primary-color);
+}
+
+body {
+    width: 100%;
+    height: 100%; 
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'FiraGO', sans-serif;
+    color: var(--text-main-color);
+    background-color: #FFFFFF;
+}
+
+/* REMOVE ARROWS FROM NUMBER INPUT FIELDS*/
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* HEADER */
+
+header {
+    width: 100%;
+    height: 100px;
+    border: 1px solid var(--border-color);
+    padding: 38px 162px;
+}
+
+/* MAIN */
+
+main {
+    width: 100%;
+    height: fit-content;
+    padding: 62px;
+    padding-bottom: 87px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 61px;
+}
+
+/* HEADING */
+
+h1 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 38.4px;
+}
