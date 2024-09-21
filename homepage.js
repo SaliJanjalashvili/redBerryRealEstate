@@ -145,4 +145,209 @@ async function getAllRegions(){
       options.addEventListener('mouseout', () => {
         dropdown.style.display = 'none';
       });
+};
+
+// GENERATE REGION CHIPS
+
+function generateRegionChips() {
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const chips = document.getElementById('chips');
+    const chipContainer = document.querySelector('.chip_container');
+    let regionChip = document.querySelectorAll('.regionChip');
+  
+    regionChip.forEach(chip => {
+      chip.remove();
+    })
+  
+    checkboxes.forEach(checkbox => {
+  
+      if (checkbox.checked) {
+  
+        const chip = document.createElement('div');
+        chip.classList.add('regionChip');
+  
+        chip.innerText = checkbox.nextSibling.textContent.trim();
+        
+        const closeIcon = document.createElement('img');
+        closeIcon.src = '/icons/icon_x.svg';
+        closeIcon.alt = 'close';  
+        closeIcon.style.cursor = 'pointer';
+  
+        closeIcon.addEventListener('click', function() {
+          chip.remove(); 
+          checkbox.checked = false;
+          if(chips.innerHTML == ''){
+            chipContainer.style.display = 'none';
+          }
+        });
+  
+        chip.appendChild(closeIcon);
+        chips.appendChild(chip);
+      };
+    });
   };
+  
+  document.getElementById('region_select_button').addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let counter = 0;
+    checkboxes.forEach(checkbox => {
+      if(checkbox.checked){
+        counter++;
+      }
+    })
+  
+    if(counter > 0){
+      generateRegionChips();
+      dropdownDisplay('region');
+    }
+  });
+  
+  // GENERATE PRICE CHIPS
+  
+  function generatePriceChip(minPrice, maxPrice) {
+    const chips = document.getElementById('chips');
+    const chipContainer = document.querySelector('.chip_container');
+    let chip = document.querySelector('.priceChip');
+  
+    if(!chip) {
+      chip = document.createElement('div');
+      chip.classList.add('priceChip');
+  
+      chip.innerText = `${minPrice} ₾ - ${maxPrice} ₾`;
+  
+      const closeIcon = document.createElement('img');
+      closeIcon.src = '/icons/icon_x.svg'; 
+      closeIcon.alt = 'close';
+      closeIcon.style.cursor = 'pointer'; 
+  
+      closeIcon.addEventListener('click', function () {
+        chip.remove();
+        if(chips.innerHTML == ''){
+          chipContainer.style.display = 'none';
+        }
+      });
+  
+      chip.appendChild(closeIcon);
+      chips.appendChild(chip);
+      chipContainer.style.display = 'flex';
+    }
+  
+    chip.firstChild.textContent = `${minPrice} ₾ - ${maxPrice} ₾`;
+  }
+  
+  document.getElementById('price_select_button').addEventListener('click', function () {
+    const minPrice = document.getElementById('min-price').value;
+    const maxPrice = document.getElementById('max-price').value;
+    
+    if (minPrice && maxPrice && Number(maxPrice) > Number(minPrice)) {
+      generatePriceChip(minPrice, maxPrice);
+      dropdownDisplay('price');
+    }
+  
+  });
+  
+  // GENERATE AREA CHIPS
+  
+  function generateAreaChip(minArea, maxArea) {
+    const chips = document.getElementById('chips');
+    const chipContainer = document.querySelector('.chip_container');
+    let chip = document.querySelector('.areaChip');
+  
+    if(!chip) {
+      chip = document.createElement('div');
+      chip.classList.add('areaChip');
+  
+      chip.innerText = `${minArea} მ² - ${maxArea} მ²`;
+  
+      const closeIcon = document.createElement('img');
+      closeIcon.src = '/icons/icon_x.svg'; 
+      closeIcon.alt = 'close';
+      closeIcon.style.cursor = 'pointer'; 
+  
+      closeIcon.addEventListener('click', function () {
+        chip.remove();
+        if(chips.innerHTML == ''){
+          chipContainer.style.display = 'none';
+        }
+      });
+  
+      chip.appendChild(closeIcon);
+      chips.appendChild(chip);
+      chipContainer.style.display = 'flex';
+    }
+  
+    chip.firstChild.textContent = `${minArea} მ² - ${maxArea} მ²`;
+  }
+  
+  document.getElementById('area_select_button').addEventListener('click', function () {
+    const minArea = document.getElementById('min-area').value;
+    const maxArea = document.getElementById('max-area').value;
+    
+    if (minArea && maxArea && Number(maxArea) > Number(minArea)) {
+      generateAreaChip(minArea, maxArea);
+      dropdownDisplay('area');
+    }
+  
+  });
+  
+  // GENERATE BEDROOM QUANTITY CHIPS
+  
+  function generateBdrQuantityChip(number) {
+  
+    const chips = document.getElementById('chips');
+    const chipContainer = document.querySelector('.chip_container');
+    let chip = document.querySelector('.BdrQuantityChip');
+  
+    if(!chip) {
+      chip = document.createElement('div');
+      chip.classList.add('BdrQuantityChip');
+  
+      chip.innerText = number;
+  
+      const closeIcon = document.createElement('img');
+      closeIcon.src = '/icons/icon_x.svg'; 
+      closeIcon.alt = 'close';
+      closeIcon.style.cursor = 'pointer'; 
+  
+      closeIcon.addEventListener('click', function () {
+        chip.remove();
+        if(chips.innerHTML == ''){
+          chipContainer.style.display = 'none';
+        }
+      });
+  
+      chip.appendChild(closeIcon);
+      chips.appendChild(chip);
+      chipContainer.style.display = 'flex';
+    }
+  
+    chip.firstChild.textContent = number;
+  }
+  
+  document.getElementById('bdr_quantity_select_button').addEventListener('click', function () {
+    const number = document.getElementById('number').value;
+    
+    if(number && number > 0) {
+      generateBdrQuantityChip(number);
+      dropdownDisplay('bdr_quantity');
+    };
+  });
+  
+  // CLEAR CHIPS
+  
+  function removeAllChips() {
+    const chips = document.getElementById('chips');
+    const chipsContainer = document.querySelector('.chip_container');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  
+    chips.innerHTML = '';
+  
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  
+    chipsContainer.style.display = 'none';
+  }
+  
+  document.querySelector('.clear_all_chips').addEventListener('click', removeAllChips);
