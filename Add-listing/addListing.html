@@ -164,6 +164,71 @@
                 <span class="add_listing_button" type="submit">დაამატე ლისტინგი</span>
             </div>
         </form>
+
+        <div class="overlay" id="overlay" style="display: none;"></div>
+            <div class="add_agent_modal" style="display: none;">
+                <h1 class="form_heading">აგენტის დამატება</h1>
+
+                <form id="add_agent_form" class="add_agent_form">
+                    <div class="input_fileds_container">
+                        <div class="container">
+                            <h3>სახელი *</h3>
+                            <input type="text" class="input_field" id="name" name="name"/>
+                            <div id="name_message" class="message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>მინიმუმ ორი სიმბოლო
+                            </div>
+                        </div>
+                        <div class="container">
+                            <h3>გვარი</h3>
+                            <input type="text" class="input_field" id="surname" name="surname"/>
+                            <div id="surname_message" class="message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>მინიმუმ ორი სიმბოლო
+                            </div>
+                        </div>
+                        <div class="container">
+                            <h3>ელ-ფოსტა *</h3>
+                            <input type="text" class="input_field" id="email" name="email"/>
+                            <div id="email_message" class="message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>გამოიყენეთ @redberry.ge ფოსტა
+                            </div>
+                        </div>
+                        <div class="container">
+                            <h3>ტელეფონის ნომერი</h3>
+                            <input type="number" class="input_field" id="mobile_number" name="mobile_number"/>
+                            <div id="mobile_number_message" class="message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>მხოლოდ რიცხვები
+                            </div>
+                        </div>
+                        <div class="container large add_agent">
+                            <h3>ატვირთეთ ფოტო *</h3>
+                            <div class="upload_photo_container_modal" id="upload_photo_container_modal">
+                                <input type="file" id="upload_photo_modal" accept="image/*" />
+                                <label for="upload_photo">
+                                    <img src="/icons/icon_upload_photo_plus.svg" alt="Upload Icon" class="upload_icon_modal" id="upload_icon_modal" />
+                                </label>
+                                <div style="display: inline-block; position: relative;">
+                                    <img id="uploaded_image_modal" class="uploaded_image_modal" style="display: none;" alt="Uploaded Image" />
+                                    <span id="delete_icon_modal" class="delete_icon_modal" style="display: none;"><img src="/icons/icon_delete.svg" alt="delete image"/></span>
+                                </div>
+                            </div>
+                            <div id="photo_message_modal" class="message"></div>
+                        </div>
+                    </div>
+                    <div class="add_agent_form_button_container">
+                        <span class="add_agent_form_button cancel">გაუქმება</span>
+                        <span class="add_agent_form_button add_agent" type="submit">დაამატე აგენტი</span>
+                    </div>
+                </form>
+            </div>
+
     </main>
 </body>
 </html>

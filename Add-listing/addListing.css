@@ -418,3 +418,94 @@ a {
 .success .check_icon path {
     stroke: var(--validation-color);
 }
+
+/* ADD AGENT MODAL */
+
+.add_agent_modal {
+    width: 1009px;
+    height: 784px;
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 148px;
+    left: 455px;
+    z-index: 9999;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 87px 105px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 61px;
+    color: var(--text-main-color);
+}
+
+.add_agent_form {
+    height: fit-content;
+}
+
+.input_fileds_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+    height: 370px;
+}
+
+.container.large.add_agent {
+    margin: 0;
+}
+
+.container.large.add_agent .message{
+    height: fit-content;
+}
+
+/* BUTTONS FOR ADD AGENT MODAL */
+
+.add_agent_form_button_container {
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    margin-top: 94px;
+}
+
+.add_agent_form_button {
+    position: relative;
+    cursor: pointer;
+    padding: 10px 16px;
+    height: 47px;
+    width: fit-content;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.add_agent_form_button.cancel {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.add_agent_form_button.cancel:hover, .add_agent_form_button.add_agent {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.add_agent_form_button.add_agent:hover {
+    background-color: var(--hover-primary-color);
+}
+
+/* DARKENED BACKGROUND OVERLAY */
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #02152657;
+    z-index: 998;
+    backdrop-filter: blur(4px);
+}
