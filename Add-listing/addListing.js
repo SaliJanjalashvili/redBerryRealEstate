@@ -61,6 +61,47 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+/* uploading image */
+
+const uploadPhotoInput = document.getElementById('upload_photo');
+const uploadIcon = document.getElementById('upload_icon');
+const uploadedImage = document.getElementById('uploaded_image');
+const deleteIcon = document.getElementById('delete_icon');
+const uploadPhotoContainer = document.querySelector('.upload_photo_container');
+
+uploadPhotoContainer.addEventListener('click', () => {
+  if(!uploadedImage.src || !uploadPhotoInput.value){
+    uploadPhotoInput.click();
+  }
+})
+
+uploadPhotoInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            
+          uploadIcon.style.display = 'none';
+
+          uploadedImage.src = e.target.result;
+          uploadedImage.style.display = 'block';
+          deleteIcon.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+deleteIcon.addEventListener('click', function() {
+  uploadedImage.style.display = 'none';
+  uploadPhotoInput.value = '';
+  uploadedImage.src = ''; 
+  deleteIcon.style.display = 'none';
+  uploadIcon.style.display = 'block';
+});
+
   document.addEventListener('DOMContentLoaded', () => {
     /* REGION DROPDOWN AND DISPLAY HANDELING */
       const regionDropdown = document.getElementById('region_dropdown');
