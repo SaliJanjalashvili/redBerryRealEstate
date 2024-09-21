@@ -195,17 +195,12 @@ document.getElementById('region_select_button').addEventListener('click', () => 
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   let counter = 0;
   checkboxes.forEach(checkbox => {
-    console.log("garet", checkbox.value);
     if(checkbox.checked){
-      
-      console.log("shignit", checkbox.value);
-      
       counter++;
       propertiesBody.forEach((property) => {
 
         if(checkbox.value == property.city.region_id){
-          console.log("es unda mushaobdes");
-         
+
            propertyDiv = document.createElement('div');
 
           const formattedPrice = property.price.toLocaleString('en-US').replace(/,/g, ' ');
@@ -248,9 +243,6 @@ document.getElementById('region_select_button').addEventListener('click', () => 
   })
 
   if(counter > 0){
-    console.log(propertiesBody);
-    
-    
     generateRegionChips();
     dropdownDisplay('region');
   }
@@ -401,6 +393,7 @@ function removeAllChips() {
   });
 
   chipsContainer.style.display = 'none';
+  
 }
 
 document.querySelector('.clear_all_chips').addEventListener('click', removeAllChips);
@@ -424,22 +417,19 @@ function hideModal() {
 
 homepageAddAgentButton.addEventListener('click', function() {
   showModal();
-  sessionStorage.setItem('isOpen', 'true');
 });
 
 overlay.addEventListener('click', function() {
   hideModal();
-  sessionStorage.setItem('isOpen', 'false');
+
 });
 
 cancelButton.addEventListener('click', function() {
   hideModal();
-  sessionStorage.setItem('isOpen', 'false');
+
 });
 
-if(sessionStorage.getItem('isOpen') === 'true'){
-  showModal();
-};
+
 
 // ADD AGENT MODAL VALIDATION
 
