@@ -214,5 +214,303 @@ deleteIcon.addEventListener('click', function() {
           dropdownIconAgent.style.rotate = '0deg';
         }
       });
-    })
+
+    /* FORM VALIDATION */
+
+    const form = document.getElementById('add_listing_form');
+    const messages = {
+    address: document.getElementById('address_message'),
+    zip: document.getElementById('zip_message'),
+    price: document.getElementById('price_message'),
+    area: document.getElementById('area_message'),
+    bdr_quantity: document.getElementById('bdr_quantity_message'),
+    description: document.getElementById('description_message'),
+    photo: document.getElementById('photo_message'),
+    agent: document.getElementById('agent_message')
+    };
+
+    // Address live validation
+    const address = document.getElementById('address');
+    address.addEventListener('input', ()=> {
+    if (address.value.length < 2) {
+        address.classList.add('error');
+        messages.address.classList.add('error');
+        messages.address.classList.remove('success');
+    } else {
+        address.classList.remove('error');
+        messages.address.classList.remove('error');
+        messages.address.classList.add('success');
+    }
+    });
+
+
+    // Zip code live validation
+    const zip = document.getElementById('zip');
+    zip.addEventListener('input', ()=> {
+    if (!/^\d+$/.test(zip.value)) {
+        zip.classList.add('error');
+        messages.zip.classList.add('error');
+        messages.zip.classList.remove('success');
+    } else {
+        zip.classList.remove('error');
+        messages.zip.classList.remove('error');
+        messages.zip.classList.add('success');
+    }
+    });
+
+    // Region live validation
+    const region = document.getElementById('region_dropdown');
+
+    region.addEventListener('click', ()=> {
+    region.classList.remove('error');
+    region.addEventListener('change', ()=> {
+        if (region.querySelector('#region_selected_text').innerText === 'აირჩიე') {
+        region.classList.add('error');
+        } else {
+        region.classList.remove('error');
+        }
+    });
+    });
+
+    // City live validation
+    const city = document.getElementById('city_dropdown');
+
+    city.addEventListener('click', ()=> {
+    city.classList.remove('error');
+    city.addEventListener('change', ()=> {
+        if (city.querySelector('#city_selected_text').innerText === 'აირჩიე') {
+        city.classList.add('error');
+        } else {
+        city.classList.remove('error');
+        }
+    });
+    });
+
+    // Price live validation
+    const price = document.getElementById('price');
+    price.addEventListener('input', ()=> {
+    if (isNaN(price.value) || price.value <= 0) {
+        price.classList.add('error');
+        messages.price.classList.add('error');
+        messages.price.classList.remove('success');
+    } else {
+        price.classList.remove('error');
+        messages.price.classList.remove('error');
+        messages.price.classList.add('success');
+    }
+    });
+
+    // Area live validation
+    const area = document.getElementById('area');
+    area.addEventListener('input', ()=> {
+    if (isNaN(area.value) || area.value <= 0) {
+        area.classList.add('error');
+        messages.area.classList.add('error');
+        messages.area.classList.remove('success');
+    } else {
+        area.classList.remove('error');
+        messages.area.classList.remove('error');
+        messages.area.classList.add('success');
+    }
+    });
+
+    // Bdr quantity live validation
+    const bdrQuantity = document.getElementById('bdr_quantity');
+    bdrQuantity.addEventListener('input', ()=> {
+    if (isNaN(bdrQuantity.value) || !Number.isInteger(parseFloat(bdrQuantity.value))) {
+        bdrQuantity.classList.add('error');
+        messages.bdr_quantity.classList.add('error');
+        messages.bdr_quantity.classList.remove('success');
+    } else {
+        bdrQuantity.classList.remove('error');
+        messages.bdr_quantity.classList.remove('error');
+        messages.bdr_quantity.classList.add('success');
+    }
+    });
+
+    // Description live validation
+    const description = document.getElementById('description');
+    description.addEventListener('input', ()=> {
+
+    const words = description.value.trim().split(/\s+/).filter(word => word.length > 0);
+
+    if (words.length < 5) {
+        description.classList.add('error');
+        messages.description.classList.add('error');
+        messages.description.classList.remove('success');
+    } else {
+        description.classList.remove('error');
+        messages.description.classList.remove('error');
+        messages.description.classList.add('success');
+    }
+    });
+
+    // Photo live validation
+    const photoContainer = document.getElementById('upload_photo_container');
+    const image = uploadPhotoInput.files[0];
+    uploadPhotoInput.addEventListener('change', ()=> {
+    if ( uploadPhotoInput.length === 0 || image && image.size > 1048576) {
+        photoContainer.classList.add('error');
+    } else {
+        photoContainer.classList.remove('error');
+    }
+    }); 
+
+    // Agent live validation
+    const agent = document.getElementById('agent_dropdown');
+    agent.addEventListener('input', ()=> {
+    if (agent.querySelector('#agent_selected_text').innerText === 'აირჩიე აგენტი') {
+        agent.classList.add('error');
+    } else {
+        agent.classList.remove('error');
+    }
+    });
+
+    document.querySelector('.add_listing_button').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    const token = '9d0c401a-9398-4cf8-ac8b-32b0f3121fc2';
+
+    let isValid = true;
+
+    const is_rental = document.querySelector('input[name="type"]:checked');
+
+    // address
+    if (address.value.length < 2) {
+        address.classList.add('error');
+        messages.address.classList.add('error');
+        messages.address.classList.remove('success');
+        isValid = false;
+    } else {
+        address.classList.remove('error');
+        messages.address.classList.remove('error');
+        messages.address.classList.add('success');
+    }
+
+    // zip
+    if (!/^\d+$/.test(zip.value)) {
+        zip.classList.add('error');
+        messages.zip.classList.add('error');
+        messages.zip.classList.remove('success');
+        isValid = false;
+    } else {
+        zip.classList.remove('error');
+        messages.zip.classList.remove('error');
+        messages.zip.classList.add('success');
+    }
+
+    //region
+    if (region.querySelector('#region_selected_text').innerText === 'აირჩიე') {
+        region.classList.add('error');
+        isValid = false;
+    } else {
+        region.classList.remove('error');
+    }
+
+    //city
+    if (city.querySelector('#city_selected_text').innerText === 'აირჩიე') {
+        city.classList.add('error');
+        isValid = false;
+    } else {
+        city.classList.remove('error');
+    }
+
+    //price
+    if (isNaN(price.value) || price.value <= 0) {
+        price.classList.add('error');
+        messages.price.classList.add('error');
+        messages.price.classList.remove('success');
+        isValid = false;
+    } else {
+        price.classList.remove('error');
+        messages.price.classList.remove('error');
+        messages.price.classList.add('success');
+    }
+
+    //area
+    if (isNaN(area.value) || area.value <= 0) {
+        area.classList.add('error');
+        messages.area.classList.add('error');
+        messages.area.classList.remove('success');
+        isValid = false;
+    } else {
+        area.classList.remove('error');
+        messages.area.classList.remove('error');
+        messages.area.classList.add('success');
+    }
+
+    //bdr quantity
+    if (isNaN(bdrQuantity.value) || !Number.isInteger(parseFloat(bdrQuantity.value))) {
+        bdrQuantity.classList.add('error');
+        messages.bdr_quantity.classList.add('error');
+        messages.bdr_quantity.classList.remove('success');
+        isValid = false;
+    } else {
+        bdrQuantity.classList.remove('error');
+        messages.bdr_quantity.classList.remove('error');
+        messages.bdr_quantity.classList.add('success');
+    }
+
+    //description
+    const words = description.value.trim().split(/\s+/).filter(word => word.length > 0);
+
+    if (words.length < 5) {
+        description.classList.add('error');
+        messages.description.classList.add('error');
+        messages.description.classList.remove('success');
+        isValid = false;
+    } else {
+        description.classList.remove('error');
+        messages.description.classList.remove('error');
+        messages.description.classList.add('success');
+    }
+
+    //photo
+    if (uploadPhotoInput.length === 0 || image && image.size > 1048576) {
+        photoContainer.classList.add('error');
+        isValid = false;
+    } else {
+        photoContainer.classList.remove('error');
+    }
+
+    //agent
+
+    if (agent.querySelector('#agent_selected_text').innerText === 'აირჩიე აგენტი') {
+        agent.classList.add('error');
+        isValid = false;
+    } else {
+        agent.classList.remove('error');
+    }
+
+    if (isValid) {
+        const formData = new FormData();
+        formData.append('is_rental', is_rental.value);
+        formData.append('address', address.value);
+        formData.append('zip_code', zip.value);
+        formData.append('region_id', selectedRegionId);
+        formData.append('city_id', selectedCityId);
+        formData.append('price', price.value);
+        formData.append('area', area.value);
+        formData.append('bedrooms', bdrQuantity.value);
+        formData.append('description', description.value);
+        formData.append('image', uploadPhotoInput.files[0]);
+        formData.append('agent_id', selectedAgentId);
+
+        fetch('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        body: formData 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href = '/Homepage/homepage.html';
+            form.reset();
+        })
+        .catch((error) => console.error('Error:', error));
+        };
+    });
+});
   
