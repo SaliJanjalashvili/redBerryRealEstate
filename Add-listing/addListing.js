@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function () {
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
-            window.location.href = '/Homepage/homepage.html';
+            window.location.href = '/index.html';
             form.reset();
           })
           .catch((error) => console.error('Error:', error));

@@ -241,7 +241,7 @@ function deleteListing(propertyId, token) {
     })
     .then(response => {
         if (response.ok) {
-            window.location.href = '/Homepage/homepage.html';
+            window.location.href = '/index.html';
         } else {
             alert('Failed to delete the listing.');
         }
