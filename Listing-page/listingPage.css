@@ -215,3 +215,78 @@ main {
 .carousel-arrow.right {
     right: 97px;
 }
+
+/* BUTTONS FOR DELETE LISTING MODAL */
+
+.delete_listing_modal {
+    width: 623px;
+    height: 222px;
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 429px;
+    left: 649px;
+    z-index: 9999;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    color: var(--text-main-color);
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.delete_listing_modal_close_button {
+    position: absolute;
+    top: 6px;
+    right: 13px;
+    cursor: pointer;
+}
+
+.delete_listing_button_container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.delete_listing_button {
+    position: relative;
+    cursor: pointer;
+    padding: 10px 16px;
+    height: 47px;
+    width: fit-content;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.delete_listing_button.cancel {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.delete_listing_button.cancel:hover, .delete_listing_button.delete {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.delete_listing_button.delete:hover {
+    background-color: var(--hover-primary-color);
+}
+
+/* DARKENED BACKGROUND OVERLAY */
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #02152657;
+    z-index: 998;
+    backdrop-filter: blur(4px);
+}

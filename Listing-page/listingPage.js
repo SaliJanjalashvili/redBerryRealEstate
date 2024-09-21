@@ -227,3 +227,40 @@ function updateArrows(carousel, visibleItemsCount) {
         rightArrow.style.display = 'flex';
     }
 }
+
+// Function to delete request
+function deleteListing(propertyId, token) {
+    const deleteURL = `https://api.real-estate-manager.redberryinternship.ge/api/real-estates/${propertyId}`;
+    
+    fetch(deleteURL, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = '/Homepage/homepage.html';
+        } else {
+            alert('Failed to delete the listing.');
+        }
+    });
+};
+
+// listing delete modal
+
+
+const deleteListingModal = document.querySelector('.delete_listing_modal');
+const overlay = document.getElementById('overlay');
+
+
+function showModal() {
+    deleteListingModal.style.display = 'flex';
+    overlay.style.display = 'block';
+}
+
+function hideModal() {
+    deleteListingModal.style.display = 'none';
+    overlay.style.display = 'none';
+}
