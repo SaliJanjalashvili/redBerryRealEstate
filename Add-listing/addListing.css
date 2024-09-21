@@ -68,3 +68,353 @@ h1 {
     font-weight: 500;
     line-height: 38.4px;
 }
+
+/* FORM */
+
+form {
+    width: 790px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.property_form_container {
+    height: fit-content;
+}
+
+.property_form_container h2 {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19.54px;
+}
+
+/* TYPE */
+
+.type_field {
+    height: 45px;
+    width: 266px;
+    margin-bottom: 80px;
+}
+
+.type_container {
+    margin-top: 8px;
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+}
+
+.select_value [type="radio"]{
+    display: none;
+}
+
+.select_value label {
+    cursor: pointer;
+    position: relative;
+    padding-left: 24px;
+}
+
+.select_value label:after,
+.select_value label:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.select_value label:after {
+    height: 17px;
+    width: 17px;
+    border: 1px solid var(--text-main-color);
+    left: 0;
+}
+
+.select_value label:before {
+    background-color: var(--text-main-color);
+    height: 7px;
+    width: 7px;
+    left: 6px;
+    top: 6px;
+    visibility: hidden;
+}
+
+.select_value [type="radio"]:checked ~ label:before{
+    visibility: visible;
+}
+
+
+/* CONTAINERS */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 384px;
+    height: 85px;
+}
+
+.container h3{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16.8px;
+    color: var(--text-main-color);
+}
+
+.container .input_field{
+    width: 384px;
+    height: 42px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px;
+    padding: 10px;
+    appearance: none;
+    outline: none; 
+}
+
+.container .message{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16.8px;
+    height: 17px;
+}
+
+.container.large {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 20px;
+}
+
+/* LOCATION */
+
+.location_container {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+    height: 190px;
+}
+
+.location_field {
+    margin-bottom: 80px;
+}
+
+.form_dropdown {
+    width: 384px;
+    height: 42px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px; 
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.form_dropdown_options {
+    list-style: none;
+    border: 1px solid var(--secondary-color);
+    border-radius: 0 0 6px 6px;
+    position: absolute;
+    width: 384px;
+    top: 100%;
+    left: -1px;
+    z-index: 1000;
+    background-color: white;
+    display: none;
+}
+
+.form_selected_option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form_dropdown_options li {
+    height: 42px;
+    padding: 10px;
+    border-bottom: 1px solid var(--secondary-color); 
+    cursor: pointer;
+}
+
+.form_dropdown_options li:last-child {
+    border-bottom: none; 
+}
+
+.form_dropdown_options li:hover {
+    background-color: var(--hover-filter-color);
+}
+
+/* DETAILS */
+
+.details_field {
+    margin-bottom: 60px;
+}
+
+.details_container {
+    height: fit-content;
+    margin-top: 22px;
+}
+
+.container_group_one {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+    height: 190px;
+    margin-bottom: 20px;
+}
+
+.input_field.description {
+    width: 100%;
+    height: 135px;
+    margin: 5px 0;
+    border-radius: 6px;
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    resize: none;
+}
+
+.upload_photo_container,  .upload_photo_container_modal{
+    position: relative;
+    width: 100%;
+    height: 120px;
+    border: 1px dashed var(--text-main-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+#upload_photo, #upload_photo_modal {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.upload_icon, .upload_icon_modal {
+    position: relative;
+    z-index: 0;
+}
+
+.uploaded_image, .uploaded_image_modal {
+    position: relative;
+    z-index: 0;
+    max-width: 100px; 
+    max-height: 100px; 
+    object-fit: cover; 
+}
+
+.delete_icon, .delete_icon_modal {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    cursor: pointer;
+    display: none;
+}
+
+/* AGENT */
+
+.agent_container {
+    margin-top: 15px;
+}
+
+.agent_container input{
+    margin-top: 5px;
+    height: 42px;
+    width: 384px;
+}
+
+#add_agent_button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* BUTTONS */
+
+a {
+    text-decoration: none;
+    color: currentColor;
+}
+
+.button_container {
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    margin-top: 90px;
+}
+
+.cancel_button {
+    position: relative;
+    cursor: pointer;
+    padding: 10px 16px;
+    height: 47px;
+    width: fit-content;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.cancel_button:hover {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.add_listing_button {
+    position: relative;
+    cursor: pointer;
+    padding: 10px 16px;
+    height: 47px;
+    width: fit-content;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+}
+
+.add_listing_button:hover {
+    background-color: var(--hover-primary-color);
+}
+
+/* VALIDATION STYLES */
+
+.error {
+    color: var(--primary-color);
+}
+
+.input_field.error, .form_dropdown.error {
+    border-color: var(--primary-color);
+    color: var(--text-main-color);
+}
+
+.upload_photo_container.error, .upload_photo_container_modal.error {
+    border-color: var(--primary-color);
+}
+
+.error .check_icon path {
+    stroke: var(--primary-color);
+}
+
+.success {
+    color: var(--validation-color);
+}
+
+.success .check_icon path {
+    stroke: var(--validation-color);
+}

@@ -15,6 +15,155 @@
     </header>
     <main>
         <h1>ლისტინგის დამატება</h1>
+        <form id="add_listing_form" >
+            <div class="property_form_container">
+                <div class="type_field">
+                    <h2>გარიგების ტიპი</h2>
+
+                    <div class="type_container">
+                        <div class="select_value">
+                            <input type="radio" id="for_sale" value="0" name="type" checked/>
+                            <label for="for_sale">იყიდება</label>
+                        </div>
+                        <div class="select_value">
+                            <input type="radio" id="for_rent" value="1" name="type"/>
+                            <label for="for_rent">ქირავდება</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="location_field">
+                    <h2>მდებარეობა</h2>
+
+                    <div id="location_container" class="location_container">
+                        <div class="container">
+                            <h3>მისამართი *</h3>
+                            <input type="text" class="input_field" id="address" name="address"/>
+                            <div class="message" id="address_message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                მინიმუმ ორი სიმბოლო
+                            </div>
+                        </div>
+                        <div class="container">
+                            <h3>საფოსტო ინდექსი *</h3>
+                            <input type="number" class="input_field" id="zip" name="zip"/>
+                            <div class="message" id="zip_message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                მხოლოდ რიცხვები
+                            </div>
+                        </div>
+                        <div class="container">
+                            <h3>რეგიონი</h3>
+                            <div class="form_dropdown" id="region_dropdown">
+                                <div class="form_selected_option" id="region_selected_option">
+                                    <span id="region_selected_text">აირჩიე</span>
+                                    <img id="region_dropdown_icon" src="/icons/icon_drop_down.png"/>
+                                </div>
+                                <ul class="form_dropdown_options" id="region_dropdown_options"></ul>
+                            </div>
+                            <div class="message" id="region_message"></div>
+                        </div>
+                        <div class="container" id="city_hidden_container" style="display: none;">
+                            <h3>ქალაქი</h3>
+                            <div class="form_dropdown" id="city_dropdown">
+                                <div class="form_selected_option" id="city_selected_option">
+                                    <span id="city_selected_text">აირჩიე</span>
+                                    <img id="city_dropdown_icon" src="/icons/icon_drop_down.png"/>
+                                </div>
+                                <ul class="form_dropdown_options" id="city_dropdown_options"></ul>
+                            </div>
+                            <div class="message" id="city_message"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="details_field">
+                    <h2>ბინის დეტალები</h2>
+
+                    <div id="details_container" class="details_container">
+                        <div class="container_group_one">
+                            <div class="container">
+                                <h3>ფასი</h3>
+                                <input type="number" class="input_field" id="price" name="price"/>
+                                <div class="message" id="price_message">
+                                    <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    მხოლოდ რიცხვები
+                                </div>
+                            </div>
+                            <div class="container">
+                                <h3>ფართობი</h3>
+                                <input type="number" class="input_field" id="area" name="area"/>
+                                <div class="message" id="area_message">
+                                    <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    მხოლოდ რიცხვები
+                                </div>
+                            </div>
+                            <div class="container">
+                                <h3>საძინებლების რაოდენობა *</h3>
+                                <input type="number" class="input_field" id="bdr_quantity" name="bdr_quantity"/>
+                                <div class="message" id="bdr_quantity_message">
+                                    <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    მხოლოდ რიცხვები
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container large">
+                            <h3>აღწერა *</h3>
+                            <textarea type="text" class="input_field description" id="description" name="description"></textarea>
+                            <div class="message" id="description_message">
+                                <svg class="check_icon" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                მინიმუმ ხუთი სიტყვა
+                            </div>
+                        </div>
+                        <div class="container large">
+                            <h3>ატვირთეთ ფოტო *</h3>
+                            <div class="upload_photo_container" id="upload_photo_container">
+                                <input type="file" id="upload_photo" accept="image/*" />
+                                <label for="upload_photo">
+                                    <img src="/icons/icon_upload_photo_plus.svg" alt="Upload Icon" class="upload_icon" id="upload_icon" />
+                                </label>
+                                <div style="display: inline-block; position: relative;">
+                                    <img id="uploaded_image" class="uploaded_image" style="display: none;" alt="Uploaded Image" />
+                                    <span id="delete_icon" class="delete_icon" style="display: none;"><img src="/icons/icon_delete.svg" alt="delete image"/></span>
+                                </div>
+                            </div>
+                            <div class="message" id="photo_message" ></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="agent_field">
+                    <h2>აგენტი</h2>
+
+                    <div class="agent_container container">
+                        <h3>აირჩიე</h3>
+                        <div class="form_dropdown" id="agent_dropdown">
+                            <div class="form_selected_option" id="agent_selected_option">
+                                <span id="agent_selected_text">აირჩიე აგენტი</span>
+                                <img id="agent_dropdown_icon" src="/icons/icon_drop_down.png"/>
+                            </div>
+                            <ul class="form_dropdown_options" id="agent_dropdown_options">
+                                <li id="add_agent_button"><img src="/icons/icon_add_circle_plus.svg"/>დაამატე აგენტი</li>
+                            </ul>
+                        </div>
+                        <div class="message" id="agent_message" ></div>
+                    </div>
+                </div>
+            </div>
+            <div class="button_container">
+                <a href="/Homepage/homepage.html"><span class="cancel_button">გაუქმება</span></a>
+                <span class="add_listing_button" type="submit">დაამატე ლისტინგი</span>
+            </div>
+        </form>
     </main>
 </body>
 </html>
