@@ -115,3 +115,115 @@ document.addEventListener('DOMContentLoaded', function() {
       propertyDetailsContainer.innerHTML = '<p>Error fetching property details.</p>';
     });
 });
+
+// Function display similar listings by region
+function fetchSimilarListings(regionId, token, mainPropertyId) {
+    const apiPropertiesURL = `https://api.real-estate-manager.redberryinternship.ge/api/real-estates`;
+    
+    fetch(apiPropertiesURL, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(properties => {
+        const similarListingsContainer = document.getElementById('similar_listings_container');
+        similarListingsContainer.innerHTML = ''; 
+
+        const similarProperties = properties.filter(property => property.city.region.id === regionId && property.id !== mainPropertyId);
+
+        if (similarProperties.length > 0) {
+            similarProperties.forEach(property => {
+                const formattedPrice = property.price.toLocaleString('en-US').replace(/,/g, ' ');
+
+                const listingDiv = document.createElement('div');
+                
+                listingDiv.innerHTML = `
+                    <div style="height:307px">
+                        <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image" >
+                        <div class="is_rental_sign_small">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
+                    </div> 
+                    <div class="similar_listing_details">
+                        <div>
+                            <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 6px; color: #021526">
+                            ${formattedPrice} ₾</h4>
+                            <p style="display: flex; align-items: center; gap: 4px">
+                            <img src="/icons/icon_location.svg" />
+                            ${property.city.name}, ${property.address}</p>
+                        </div>
+                        <div style="display: flex; gap: 32px">
+                            <p style="display: flex; align-items: center; gap: 5px">
+                            <img src="/icons/icon_bed.svg" />${property.bedrooms}</p>
+                            <p style="display: flex; align-items: center; gap: 5px">
+                            <img src="/icons/icon_area.svg" />${property.area} მ²</p>
+                            <p style="display: flex; align-items: center; gap: 5px">
+                            <img src="/icons/icon_zip.svg" />${property.zip_code}</p>
+                        </div>
+                    </div>
+                `;
+                listingDiv.classList.add('individual_similar_listing_contanier');
+                similarListingsContainer.appendChild(listingDiv);
+
+                listingDiv.addEventListener('click', () => {
+                    window.location.href = `/Listing-page/listingPage.html?id=${property.id}`;
+                });
+            });
+
+            if (similarProperties.length > 4) {
+                carouselScroll();
+            }
+        } else {
+            similarListingsContainer.innerHTML = '<p style="font-size:20px; font-weight:400; color: #021526CC">მსგავს ლოკაციაზე სხვა განცხადებები არ იძებნება</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching similar listings:', error);
+        const similarListingsContainer = document.getElementById('similar_listings_container');
+        similarListingsContainer.innerHTML = '<p>Error fetching similar listings.</p>';
+    });
+}
+
+function carouselScroll() {
+    const carousel = document.getElementById('similar_listings_container');
+    const leftArrow = document.getElementById('leftArrow');
+    const rightArrow = document.getElementById('rightArrow');
+
+    let visibleItemsCount = 4; 
+    const totalItems = carousel.children.length;
+
+    // showing arrows
+    if (totalItems > visibleItemsCount) {
+        leftArrow.style.display = 'flex';
+        rightArrow.style.display = 'flex';
+    }
+
+    rightArrow.addEventListener('click', () => {
+        const firstItem = carousel.firstElementChild;
+        carousel.appendChild(firstItem);
+        updateArrows(carousel, visibleItemsCount);
+    });
+
+    leftArrow.addEventListener('click', () => {
+        const lastItem = carousel.lastElementChild;
+        carousel.prepend(lastItem);
+        updateArrows(carousel, visibleItemsCount);
+    });
+
+    updateArrows(carousel, visibleItemsCount);
+}
+
+// Function to hide/show arrows if there's nothing to scroll
+function updateArrows(carousel, visibleItemsCount) {
+    const leftArrow = document.getElementById('leftArrow');
+    const rightArrow = document.getElementById('rightArrow');
+
+    if (carousel.children.length <= visibleItemsCount) {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
+    } else {
+        leftArrow.style.display = 'flex';
+        rightArrow.style.display = 'flex';
+    }
+}
