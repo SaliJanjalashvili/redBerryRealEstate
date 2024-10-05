@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     uploadPhotoInput.addEventListener('change', ()=> {
 
-      if ( uploadPhotoInput.length === 0 || image && image.size > 1048576) {
+      if ( uploadPhotoInput.files.length === 0 || image && image.size > 1048576) {
         photoContainer.classList.add('error');
       } else {
         photoContainer.classList.remove('error');
@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   
       //photo
-      if (uploadPhotoInput.length === 0 || image && image.size > 1048576) {
+      if (uploadPhotoInput.files.length === 0 || image && image.size > 1048576) {
         photoContainer.classList.add('error');
         isValid = false;
       } else {
