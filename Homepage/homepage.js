@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
            cityName = cityMap.get(property.city_id);
 
           propertyDiv.innerHTML = `
-            <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image" >
+            <img src="${property.image}" alt="Property Image" class="property_image" >
             <div class="is_rental_sign">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
             <div class="listing_details">
               <div>

@@ -575,13 +575,20 @@ h1 {
 
 .homepage_listing_contanier {
     width: 384px;
-    height: fit-content;
+    height: 455px;
     border-radius: 14px;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
     position: relative;
     cursor: pointer;
+}
+
+.property_image {
+    height: 307px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 14px 14px 0 0;
 }
 
 .homepage_listing_contanier:hover {

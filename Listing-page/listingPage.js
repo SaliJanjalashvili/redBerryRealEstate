@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
         propertyDetailsContainer.innerHTML = `
             <div class="listing_image_and_type">
-                <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image">
+                <img src="${property.image}" alt="Property Image" class="main_property_image">
                 <div class="is_rental_sign">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
             </div> 
             <div class="listing_details">
@@ -142,7 +142,7 @@ function fetchSimilarListings(regionId, token, mainPropertyId) {
                 
                 listingDiv.innerHTML = `
                     <div style="height:307px">
-                        <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image" >
+                        <img src="${property.image}" alt="Property Image" class="property_image">
                         <div class="is_rental_sign_small">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
                     </div> 
                     <div class="similar_listing_details">

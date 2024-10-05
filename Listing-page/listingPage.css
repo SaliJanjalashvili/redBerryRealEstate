@@ -81,6 +81,12 @@ main {
     width: 839px;
 }
 
+.main_property_image {
+    object-fit: cover;
+    height: 670px;
+    width: 100%;
+}
+
 .listing_details {
     height: 100%;
     width: 503px;
@@ -163,6 +169,13 @@ main {
 
 .individual_similar_listing_contanier:hover {
     box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+.property_image {
+    height: 307px;
+    width: 100%;
+    border-radius: 14px 14px 0 0;
+    object-fit: cover;
 }
 
 .is_rental_sign_small {
