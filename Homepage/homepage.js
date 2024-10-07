@@ -91,6 +91,13 @@ function validateBdrQuantity() {
   handleValidationError(bdrQuantityInput, errorMessageBdrQuantity, isError);
 }
 bdrQuantityInput.addEventListener("input", validateBdrQuantity);
+const originalBdrQuantityInputPlaceholder = bdrQuantityInput.placeholder;
+bdrQuantityInput.addEventListener("focus", () => {
+  bdrQuantityInput.placeholder = '';
+});
+bdrQuantityInput.addEventListener("blur", () => {
+  bdrQuantityInput.placeholder = originalBdrQuantityInputPlaceholder;
+});
 
 // Reusable function to insert hardcoded input options on click
 function addOptionEventListeners(optionSelector, inputElement) {
@@ -344,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (propertiesData && propertiesData.length > 0) {
       propertiesData.forEach(property => createPropertyListing(property, propertiesContainer));
     } else {
-      propertiesContainer.innerHTML = '<p>გთხოვთ შექმნათ განცხადება</p>';
+      propertiesContainer.innerHTML = '<p style="font-weight: 400; font-size: 20px; color: #021526CC">გთხოვთ შექმნათ განცხადება</p>';
     }
   });
 });
@@ -407,7 +414,7 @@ function updateFilteredProperties() {
   if (propertiesToShow.length > 0) {
     propertiesToShow.forEach(property => createPropertyListing(property, propertiesContainer));
   } else {
-    propertiesContainer.innerHTML = '<p>აღნიშნული მონაცემებით განცხადება არ იძებნება</p>';
+    propertiesContainer.innerHTML = '<p style="font-weight: 400; font-size: 20px; color: #021526CC">აღნიშნული მონაცემებით განცხადება არ იძებნება</p>';
   }
 }
 
