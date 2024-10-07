@@ -1,12 +1,12 @@
 // DISPLAY REGIONS IN FILTER TAB
 let propertiesContainer;
-let propertiesBody;
+let propertiesBody = [];
 let radioInput;
 let propertyDiv;
 const cityMap = new Map();
 let cityName;
-   fetch("https://api.real-estate-manager.redberryinternship.ge/api/regions",{
-    method: 'GET'
+fetch("https://api.real-estate-manager.redberryinternship.ge/api/regions",{
+  method: 'GET'
 })
 .then(response => response.json())
     .then(data => {
@@ -27,11 +27,7 @@ let cityName;
       })
     })
 
-
-
-
 //  PRICE, AREA & QUANTITY VALIDATION
-
 const minPriceInput = document.getElementById("min-price");
 const maxPriceInput = document.getElementById("max-price");
 const errorMessagePrice = document.getElementById("price-error-message");
@@ -45,361 +41,377 @@ const areaSelectButton = document.getElementById("area_select_button");
 const bdrQuantityInput = document.getElementById("number");
 const errorMessageBdrQuantity = document.getElementById('bdr-quantity-error-message');
 
-  // error message
-function validatePrices() {
-  const minPrice = parseInt(minPriceInput.value);
-  const maxPrice = parseInt(maxPriceInput.value);
-  
-  if (maxPrice < minPrice) {
-    errorMessagePrice.style.display = "block";
-    minPriceInput.style.border = "1px solid #F93B1D";
-    maxPriceInput.style.border = "1px solid #F93B1D";
+// Function to show or hide validation errors
+function handleValidationError(inputElement, errorMessageElement, isError) {
+  if (isError) {
+    errorMessageElement.style.display = "block";
+    inputElement.style.border = "1px solid #F93B1D";
   } else {
-    errorMessagePrice.style.display = "none";
-    minPriceInput.style.border = "1px solid #808A93";
-    maxPriceInput.style.border = "1px solid #808A93";
+    errorMessageElement.style.display = "none";
+    inputElement.style.border = "1px solid #808A93";
   }
 }
 
-function validateArea() {
-  const minArea = parseInt(minAreaInput.value);
-  const maxArea = parseInt(maxAreaInput.value);
-  
-  if (maxArea < minArea) {
-    errorMessageArea.style.display = "block";
-    minAreaInput.style.border = "1px solid #F93B1D";
-    maxAreaInput.style.border = "1px solid #F93B1D";
-  } else {
-    errorMessageArea.style.display = "none";
-    minAreaInput.style.border = "1px solid #808A93";
-    maxAreaInput.style.border = "1px solid #808A93";
-  }
+// Reusable validate function for min-max comparison
+function validate(minInput, maxInput, errorMessage, minValue, maxValue) {
+  const isError = maxValue <= minValue;
+  handleValidationError(minInput, errorMessage, isError);
+  handleValidationError(maxInput, errorMessage, isError);
 }
 
-function validateBdrQuantity() {
-  const bdrQuantity = parseInt(bdrQuantityInput.value);
-
-  if(bdrQuantity <= 0){
-    errorMessageBdrQuantity.style.display = 'block';
-    bdrQuantityInput.style.border = "1px solid #F93B1D";
-  }else{
-    errorMessageBdrQuantity.style.display = 'none';
-    bdrQuantityInput.style.border = "1px solid #808A93";
-  }
-};
-
-minPriceInput.addEventListener("input", validatePrices);
-maxPriceInput.addEventListener("input", validatePrices);
-
-minAreaInput.addEventListener("input", validateArea);
-maxAreaInput.addEventListener("input", validateArea);
-
-bdrQuantityInput.addEventListener("input", validateBdrQuantity);
-
-  // setting the input values on click
+// setting the input values on click
 function handleOptionClick(inputField, value) {
   inputField.value = value;
   validatePrices();
   validateArea();
 }
 
-  // for price
-document.querySelectorAll("#min-options .price-option").forEach(button => {
-  button.addEventListener("click", function() {
-    handleOptionClick(minPriceInput, this.getAttribute("data-value"));
-  });
-});
+  // Prices
+function validatePrices() {
+  const minPrice = parseInt(minPriceInput.value);
+  const maxPrice = parseInt(maxPriceInput.value);
+  validate(minPriceInput, maxPriceInput, errorMessagePrice, minPrice, maxPrice);
+}
+minPriceInput.addEventListener("input", validatePrices);
+maxPriceInput.addEventListener("input", validatePrices);
 
-document.querySelectorAll("#max-options .price-option").forEach(button => {
-  button.addEventListener("click", function() {
-    handleOptionClick(maxPriceInput, this.getAttribute("data-value"));
-  });
-});
+  // Area
+function validateArea() {
+  const minArea = parseInt(minAreaInput.value);
+  const maxArea = parseInt(maxAreaInput.value);
+  validate(minAreaInput, maxAreaInput, errorMessageArea, minArea, maxArea);
+}
+minAreaInput.addEventListener("input", validateArea);
+maxAreaInput.addEventListener("input", validateArea);
 
-  // for area
+  // Bedroom quantity
+function validateBdrQuantity() {
+  const bdrQuantity = parseInt(bdrQuantityInput.value);
+  const isError = bdrQuantity <= 0;
+  handleValidationError(bdrQuantityInput, errorMessageBdrQuantity, isError);
+}
+bdrQuantityInput.addEventListener("input", validateBdrQuantity);
 
-document.querySelectorAll("#min-options .area-option").forEach(button => {
-  button.addEventListener("click", function() {
-    handleOptionClick(minAreaInput, this.getAttribute("data-value"));
+// Reusable function to insert hardcoded input options on click
+function addOptionEventListeners(optionSelector, inputElement) {
+  document.querySelectorAll(optionSelector).forEach(button => {
+    button.addEventListener("click", function() {
+      handleOptionClick(inputElement, this.getAttribute("data-value"));
+    });
   });
-});
-
-document.querySelectorAll("#max-options .area-option").forEach(button => {
-  button.addEventListener("click", function() {
-    handleOptionClick(maxAreaInput, this.getAttribute("data-value"));
-  });
-});
+}
+  // price options on click
+addOptionEventListeners("#min-options .price-option", minPriceInput);
+addOptionEventListeners("#max-options .price-option", maxPriceInput);
+  // area options on click
+addOptionEventListeners("#min-options .area-option", minAreaInput);
+addOptionEventListeners("#max-options .area-option", maxAreaInput);
 
 // HANDELING DROPDOWN TABS
-
 function dropdownDisplay (optionStr) {
-
   let dropdown = document.querySelector(`.drop_down_${optionStr}`);
+  dropdown.style.display = 'none';
+  const container = document.querySelector('.chip_container');
+  container.style.display = 'flex';
+  const options = document.querySelector(`.${optionStr}`);
+  options.addEventListener('mouseover', () => {
+    dropdown.style.display = 'block';
+  });
+  options.addEventListener('mouseout', () => {
     dropdown.style.display = 'none';
-    
-    const container = document.querySelector('.chip_container');
-    container.style.display = 'flex';
-  
-    const options = document.querySelector(`.${optionStr}`);
-    options.addEventListener('mouseover', () => {
-      dropdown.style.display = 'block';
-    });
-    options.addEventListener('mouseout', () => {
-      dropdown.style.display = 'none';
-    });
-};
-
-// GENERATE REGION CHIPS
-
-function generateRegionChips() {
-
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const chips = document.getElementById('chips');
-  const chipContainer = document.querySelector('.chip_container');
-  let regionChip = document.querySelectorAll('.regionChip');
-
-  regionChip.forEach(chip => {
-    chip.remove();
-  })
-
-  checkboxes.forEach(checkbox => {
-
-    if (checkbox.checked) {
-
-      const chip = document.createElement('div');
-      chip.classList.add('regionChip');
-
-      chip.innerText = checkbox.nextSibling.textContent.trim();
-      
-      const closeIcon = document.createElement('img');
-      closeIcon.src = '/icons/icon_x.svg';
-      closeIcon.alt = 'close';  
-      closeIcon.style.cursor = 'pointer';
-
-      closeIcon.addEventListener('click', function() {
-        chip.remove(); 
-        checkbox.checked = false;
-        if(chips.innerHTML == ''){
-          chipContainer.style.display = 'none';
-        }
-      });
-
-      chip.appendChild(closeIcon);
-      chips.appendChild(chip);
-    };
   });
 };
 
-document.getElementById('region_select_button').addEventListener('click', () => {
-  document.querySelector("#all_listings_container").innerHTML = "";
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  let counter = 0;
-  checkboxes.forEach(checkbox => {
-    if(checkbox.checked){
-      counter++;
-      propertiesBody.forEach((property) => {
+// GENERATING CHIPS
 
-        if(checkbox.value == property.city.region_id){
+const chips = document.getElementById('chips');
+const chipContainer = document.querySelector('.chip_container');
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+const CHIP_CLASSES = {
+  REGION: 'regionChip',
+  PRICE: 'priceChip',
+  AREA: 'areaChip',
+  BDR_QUANTITY: 'BdrQuantityChip'
+};
 
-           propertyDiv = document.createElement('div');
+// Function to generate a chip
+function generateChip(chipClass, displayText, closeCallback) {
+  const chip = document.createElement('div');
+  chip.classList.add(chipClass);
+  chip.innerText = displayText;
 
-          const formattedPrice = property.price.toLocaleString('en-US').replace(/,/g, ' ');
-  
-           cityName = cityMap.get(property.city_id);
-  
-          propertyDiv.innerHTML = `
-            <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image" >
-            <div class="is_rental_sign">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
-            <div class="listing_details">
-              <div>
-                <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 6px; color: #021526">
-                ${formattedPrice} ₾</h4>
-                <p style="display: flex; align-items: center; gap: 4px">
-                <img src="/icons/icon_location.svg" />
-                ${cityName}, ${property.address}</p>
-              </div>
-              <div style="display: flex; gap: 32px">
-                <p style="display: flex; align-items: center; gap: 5px">
-                <img src="/icons/icon_bed.svg" />${property.bedrooms}</p>
-                <p style="display: flex; align-items: center; gap: 5px">
-                <img src="/icons/icon_area.svg" />${property.area} მ²</p>
-                <p style="display: flex; align-items: center; gap: 5px">
-                <img src="/icons/icon_zip.svg" />${property.zip_code}</p>
-              </div>
-            </div>
-          `;
-  
-          propertyDiv.classList.add('homepage_listing_contanier');
-          propertiesContainer.appendChild(propertyDiv);
-  
-          propertyDiv.addEventListener('click', () => {
-            window.location.href =` /Listing-page/listingPage.html?id=${property.id}`;
-          });
-        }
-        
-      })
+  const closeIcon = document.createElement('img');
+  closeIcon.src = '/icons/icon_x.svg'; 
+  closeIcon.alt = 'close';
+  closeIcon.style.cursor = 'pointer';
+  closeIcon.addEventListener('click', function () {
+    chip.remove();
+    closeCallback();
+    if (chips.innerHTML === '') {
+      chipContainer.style.display = 'none';
     }
-
-  })
-
-  if(counter > 0){
-    generateRegionChips();
-    dropdownDisplay('region');
+  });
+  chip.appendChild(closeIcon);
+  chips.appendChild(chip);
+  chipContainer.style.display = 'flex';
+}
+// Remove existing chip before generating a new one
+function removeExistingChip(chipClass) {
+  const existingChip = document.querySelector(`.${chipClass}`);
+  if (existingChip) {
+    existingChip.remove();
   }
-});
-
-// GENERATE PRICE CHIPS
-
-function generatePriceChip(minPrice, maxPrice) {
-  const chips = document.getElementById('chips');
-  const chipContainer = document.querySelector('.chip_container');
-  let chip = document.querySelector('.priceChip');
-
-  if(!chip) {
-    chip = document.createElement('div');
-    chip.classList.add('priceChip');
-
-    chip.innerText =` ${minPrice} ₾ - ${maxPrice} ₾`;
-
-    const closeIcon = document.createElement('img');
-    closeIcon.src = '/icons/icon_x.svg'; 
-    closeIcon.alt = 'close';
-    closeIcon.style.cursor = 'pointer'; 
-
-    closeIcon.addEventListener('click', function () {
-      chip.remove();
-      if(chips.innerHTML == ''){
-        chipContainer.style.display = 'none';
-      }
-    });
-
-    chip.appendChild(closeIcon);
-    chips.appendChild(chip);
-    chipContainer.style.display = 'flex';
-  }
-
-  chip.firstChild.textContent = `${minPrice} ₾ - ${maxPrice} ₾`;
 }
 
+// Generate region chips for each checked checkbox
+function generateRegionChips() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  selectedFilters.regions = [];
+  document.querySelectorAll(`.${CHIP_CLASSES.REGION}`).forEach(chip => chip.remove());
+
+  checkboxes.forEach(checkbox => {
+    if (checkbox.checked) {
+      const regionId = parseInt(checkbox.value);
+      selectedFilters.regions.push(regionId);
+      generateChip(CHIP_CLASSES.REGION, checkbox.nextSibling.textContent.trim(), () => {
+        checkbox.checked = false; 
+        selectedFilters.regions = selectedFilters.regions.filter(id => id !== regionId);
+        updateFilteredProperties();
+      });
+    }
+  });
+  updateFilteredProperties();
+}
+document.getElementById('region_select_button').addEventListener('click', () => {
+  generateRegionChips();
+  dropdownDisplay('region');
+});
+
+// Generate chip for Price
+function generatePriceChip(minPrice, maxPrice) {
+  const displayText = `${minPrice} ₾ - ${maxPrice} ₾`;
+  selectedFilters.priceRange = { min: minPrice, max: maxPrice };
+  removeExistingChip(CHIP_CLASSES.PRICE);
+  generateChip(CHIP_CLASSES.PRICE, displayText, () => {
+    selectedFilters.priceRange = null;
+    updateFilteredProperties();
+  });
+  updateFilteredProperties(); 
+}
 document.getElementById('price_select_button').addEventListener('click', function () {
-  const minPrice = document.getElementById('min-price').value;
-  const maxPrice = document.getElementById('max-price').value;
-  
-  if (minPrice && maxPrice && Number(maxPrice) > Number(minPrice)) {
+  const minPrice = Number(document.getElementById('min-price').value);
+  const maxPrice = Number(document.getElementById('max-price').value);
+
+  if (minPrice && maxPrice && maxPrice > minPrice) {
     generatePriceChip(minPrice, maxPrice);
     dropdownDisplay('price');
   }
-
 });
 
-// GENERATE AREA CHIPS
-
+// Generate chip for Area
 function generateAreaChip(minArea, maxArea) {
-  const chips = document.getElementById('chips');
-  const chipContainer = document.querySelector('.chip_container');
-  let chip = document.querySelector('.areaChip');
-
-  if(!chip) {
-    chip = document.createElement('div');
-    chip.classList.add('areaChip');
-
-    chip.innerText =`${minArea} მ² - ${maxArea} მ²`;
-
-    const closeIcon = document.createElement('img');
-    closeIcon.src = '/icons/icon_x.svg'; 
-    closeIcon.alt = 'close';
-    closeIcon.style.cursor = 'pointer'; 
-
-    closeIcon.addEventListener('click', function () {
-      chip.remove();
-      if(chips.innerHTML == ''){
-        chipContainer.style.display = 'none';
-      }
-    });
-
-    chip.appendChild(closeIcon);
-    chips.appendChild(chip);
-    chipContainer.style.display = 'flex';
-  }
-
-  chip.firstChild.textContent =`${minArea} მ² - ${maxArea} მ²`;
+  const displayText = `${minArea} მ² - ${maxArea} მ²`;
+  selectedFilters.areaRange = { min: minArea, max: maxArea };
+  removeExistingChip(CHIP_CLASSES.AREA);
+  generateChip(CHIP_CLASSES.AREA, displayText, () => {
+    selectedFilters.areaRange = null; 
+    updateFilteredProperties();
+  });
+  updateFilteredProperties();
 }
-
 document.getElementById('area_select_button').addEventListener('click', function () {
-  const minArea = document.getElementById('min-area').value;
-  const maxArea = document.getElementById('max-area').value;
-  
-  if (minArea && maxArea && Number(maxArea) > Number(minArea)) {
+  const minArea = Number(document.getElementById('min-area').value);
+  const maxArea = Number(document.getElementById('max-area').value);
+
+  if (minArea && maxArea && maxArea > minArea) {
     generateAreaChip(minArea, maxArea);
     dropdownDisplay('area');
   }
-
 });
 
-// GENERATE BEDROOM QUANTITY CHIPS
-
+// Generate chip for Bedroom Quantity
 function generateBdrQuantityChip(number) {
-
-  const chips = document.getElementById('chips');
-  const chipContainer = document.querySelector('.chip_container');
-  let chip = document.querySelector('.BdrQuantityChip');
-
-  if(!chip) {
-    chip = document.createElement('div');
-    chip.classList.add('BdrQuantityChip');
-
-    chip.innerText = number;
-
-    const closeIcon = document.createElement('img');
-    closeIcon.src = '/icons/icon_x.svg'; 
-    closeIcon.alt = 'close';
-    closeIcon.style.cursor = 'pointer'; 
-
-    closeIcon.addEventListener('click', function () {
-      chip.remove();
-      if(chips.innerHTML == ''){
-        chipContainer.style.display = 'none';
-      }
-    });
-
-    chip.appendChild(closeIcon);
-    chips.appendChild(chip);
-    chipContainer.style.display = 'flex';
-  }
-
-  chip.firstChild.textContent = number;
+  const displayText = `${number}`;
+  selectedFilters.bedroomQuantity = number;
+  removeExistingChip(CHIP_CLASSES.BDR_QUANTITY);
+  generateChip(CHIP_CLASSES.BDR_QUANTITY, displayText, () => {
+    selectedFilters.bedroomQuantity = null; 
+    updateFilteredProperties();
+  });
+  updateFilteredProperties();
 }
-
 document.getElementById('bdr_quantity_select_button').addEventListener('click', function () {
-  const number = document.getElementById('number').value;
-  
-  if(number && number > 0) {
+  const number = Number(document.getElementById('number').value);
+
+  if (number && number > 0) {
     generateBdrQuantityChip(number);
     dropdownDisplay('bdr_quantity');
-  };
+  }
 });
 
 // CLEAR CHIPS
-
 function removeAllChips() {
-  const chips = document.getElementById('chips');
-  const chipsContainer = document.querySelector('.chip_container');
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
   chips.innerHTML = '';
-
   checkboxes.forEach(checkbox => {
     checkbox.checked = false;
   });
 
-  chipsContainer.style.display = 'none';
-  
-}
+  selectedFilters = {
+    regions: [],
+    priceRange: null,
+    areaRange: null,
+    bedroomQuantity: null,
+  };
 
+  chipContainer.style.display = 'none';
+  updateFilteredProperties(); 
+}
 document.querySelector('.clear_all_chips').addEventListener('click', removeAllChips);
 
-// ADD AGENT MODAL
+// GENERATE LISTINGS
 
+const token = '9d0c401a-9398-4cf8-ac8b-32b0f3121fc2';
+const apiPropertiesURL = 'https://api.real-estate-manager.redberryinternship.ge/api/real-estates';
+const apiCitiesURL = 'https://api.real-estate-manager.redberryinternship.ge/api/cities';
+
+// Function to generate a property listing
+function createPropertyListing(property, propertiesContainer) {
+  const propertyDiv = document.createElement('div');
+  const formattedPrice = property.price.toLocaleString('en-US').replace(/,/g, ' ');
+  const cityName = cityMap.get(property.city_id);
+
+  propertyDiv.innerHTML = `
+    <img src="${property.image || '/path/to/default-image.jpg'}" alt="Property Image" class="property_image">
+    <div class="is_rental_sign">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
+    <div class="listing_details">
+      <div>
+        <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 6px; color: #021526">
+        ${formattedPrice} ₾</h4>
+        <p style="display: flex; align-items: center; gap: 4px">
+        <img src="/icons/icon_location.svg" />
+        ${cityName}, ${property.address}</p>
+      </div>
+      <div style="display: flex; gap: 32px">
+        <p style="display: flex; align-items: center; gap: 5px">
+        <img src="/icons/icon_bed.svg" />${property.bedrooms}</p>
+        <p style="display: flex; align-items: center; gap: 5px">
+        <img src="/icons/icon_area.svg" />${property.area} მ²</p>
+        <p style="display: flex; align-items: center; gap: 5px">
+        <img src="/icons/icon_zip.svg" />${property.zip_code}</p>
+      </div>
+    </div>
+  `;
+
+  propertyDiv.classList.add('homepage_listing_contanier');
+  propertiesContainer.appendChild(propertyDiv);
+
+  propertyDiv.addEventListener('click', () => {
+    window.location.href = `/Listing-page/listingPage.html?id=${property.id}`;
+  });
+}
+
+// Fetch cities and properties
+document.addEventListener('DOMContentLoaded', function() {
+  // Fetch cities from the API
+  fetch(apiCitiesURL, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(citiesData => {
+    citiesData.forEach(city => {
+      cityMap.set(city.id, city.name);
+    });
+
+    // Fetch properties from the API
+    return fetch(apiPropertiesURL, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  })
+  .then(response => response.json())
+  .then(propertiesData => {
+    propertiesBody = propertiesData;
+    const propertiesContainer = document.getElementById('all_listings_container');
+
+    if (propertiesData && propertiesData.length > 0) {
+      propertiesData.forEach(property => createPropertyListing(property, propertiesContainer));
+    } else {
+      propertiesContainer.innerHTML = '<p>გთხოვთ შექმნათ განცხადება</p>';
+    }
+  });
+});
+
+// FILTER LISTINGS
+let selectedFilters = {
+  regions: [],
+  priceRange: null,
+  areaRange: null,
+  bedroomQuantity: null,
+};
+
+function filterProperties(properties) {
+  return properties.filter(property => {
+    const propertyRegionId = property.city.region_id;
+
+    const matchesRegion = selectedFilters.regions.length === 0 || selectedFilters.regions.includes(propertyRegionId);
+    const matchesPrice = !selectedFilters.priceRange || (property.price >= selectedFilters.priceRange.min && property.price <= selectedFilters.priceRange.max);
+    const matchesArea = !selectedFilters.areaRange || (property.area >= selectedFilters.areaRange.min && property.area <= selectedFilters.areaRange.max);
+    const matchesBedroomQuantity = !selectedFilters.bedroomQuantity || property.bedrooms === selectedFilters.bedroomQuantity;
+    
+    let regionIsChosen;
+    let priceIsChosen;
+    let areaIsChosen;
+    let quantityIsChosen;
+
+    if(selectedFilters.regions.length > 0){
+      regionIsChosen = matchesRegion
+    }
+    if(selectedFilters.priceRange){
+      priceIsChosen = matchesPrice
+    }
+    if(selectedFilters.areaRange){
+      areaIsChosen = matchesArea
+    }
+    if(selectedFilters.bedroomQuantity){
+      quantityIsChosen = matchesBedroomQuantity
+    }
+
+    return regionIsChosen || priceIsChosen || areaIsChosen || quantityIsChosen;
+  });
+} 
+
+function updateFilteredProperties() {
+  const propertiesContainer = document.getElementById('all_listings_container');
+  propertiesContainer.innerHTML = ''; 
+
+  const noFiltersApplied =
+    selectedFilters.regions.length === 0 &&
+    !selectedFilters.priceRange &&
+    !selectedFilters.areaRange &&
+    !selectedFilters.bedroomQuantity;
+
+  let propertiesToShow = propertiesBody;
+
+  if (!noFiltersApplied) {
+    propertiesToShow = filterProperties(propertiesBody);
+  }
+
+  if (propertiesToShow.length > 0) {
+    propertiesToShow.forEach(property => createPropertyListing(property, propertiesContainer));
+  } else {
+    propertiesContainer.innerHTML = '<p>აღნიშნული მონაცემებით განცხადება არ იძებნება</p>';
+  }
+}
+
+// ADD AGENT MODAL
 const homepageAddAgentButton = document.querySelector('.homepage_button.add_agent');
 const addAgentModal = document.querySelector('.add_agent_modal');
 const overlay = document.getElementById('overlay');
@@ -428,8 +440,6 @@ cancelButton.addEventListener('click', function() {
   hideModal();
 
 });
-
-
 
 // ADD AGENT MODAL VALIDATION
 
@@ -631,83 +641,3 @@ deleteIcon.addEventListener('click', function() {
   uploadIcon.style.display = 'block';
 });
 
-/* generate listings */
-
-document.addEventListener('DOMContentLoaded', function() {
-  const token = '9d0c401a-9398-4cf8-ac8b-32b0f3121fc2';
-  const apiPropertiesURL = 'https://api.real-estate-manager.redberryinternship.ge/api/real-estates';
-  const apiCitiesURL = 'https://api.real-estate-manager.redberryinternship.ge/api/cities';
-
-  
-  // Fetch cities from the API
-  fetch(apiCitiesURL, {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.json())
-  .then(citiesData => {
-    citiesBody = citiesData;
-    
-    citiesData.forEach(city => {
-      cityMap.set(city.id, city.name);
-    });
-
-    // Fetch properties from the API
-    fetch(apiPropertiesURL, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(propertiesData => {
-       propertiesContainer = document.getElementById('all_listings_container');
-        propertiesBody = propertiesData;
-      if (propertiesData && propertiesData.length > 0) {
-        propertiesData.forEach(property => {
-
-           propertyDiv = document.createElement('div');
-
-          const formattedPrice = property.price.toLocaleString('en-US').replace(/,/g, ' ');
-
-           cityName = cityMap.get(property.city_id);
-
-          propertyDiv.innerHTML = `
-            <img src="${property.image}" alt="Property Image" class="property_image" >
-            <div class="is_rental_sign">${property.is_rental === 1 ? 'ქირავდება' : 'იყიდება'}</div>
-            <div class="listing_details">
-              <div>
-                <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 6px; color: #021526">
-                ${formattedPrice} ₾</h4>
-                <p style="display: flex; align-items: center; gap: 4px">
-                <img src="/icons/icon_location.svg" />
-                ${cityName}, ${property.address}</p>
-              </div>
-              <div style="display: flex; gap: 32px">
-                <p style="display: flex; align-items: center; gap: 5px">
-                <img src="/icons/icon_bed.svg" />${property.bedrooms}</p>
-                <p style="display: flex; align-items: center; gap: 5px">
-                <img src="/icons/icon_area.svg" />${property.area} მ²</p>
-                <p style="display: flex; align-items: center; gap: 5px">
-                <img src="/icons/icon_zip.svg" />${property.zip_code}</p>
-              </div>
-            </div>
-          `;
-
-          propertyDiv.classList.add('homepage_listing_contanier');
-          propertiesContainer.appendChild(propertyDiv);
-
-          propertyDiv.addEventListener('click', () => {
-            window.location.href = `/Listing-page/listingPage.html?id=${property.id}`;
-          });
-        });
-      } else {
-        propertiesContainer.innerHTML = '<p>No properties found.</p>';
-      }
-    })
-  });
-});
