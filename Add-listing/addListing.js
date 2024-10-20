@@ -242,6 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messages.address.classList.remove('error');
         messages.address.classList.add('success');
       }
+      sessionStorage.setItem("address-validation", messages.address.classList);
     });
     
   
@@ -258,16 +259,15 @@ document.addEventListener('DOMContentLoaded', function () {
         messages.zip.classList.remove('error');
         messages.zip.classList.add('success');
       }
+      sessionStorage.setItem("zip-validation", messages.zip.classList);
     });
   
     // Region live validation
     const region = document.getElementById('region_dropdown');
   
     region.addEventListener('click', ()=> {
-      
       region.classList.remove('error');
       region.addEventListener('change', ()=> {
-        sessionStorage.setItem('region', region)
         if (region.querySelector('#region_selected_text').innerText === 'აირჩიე') {
           region.classList.add('error');
         } else {
@@ -303,6 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messages.price.classList.remove('error');
         messages.price.classList.add('success');
       }
+      sessionStorage.setItem("price-validation", messages.price.classList);
     });
   
     // Area live validation
@@ -318,6 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messages.area.classList.remove('error');
         messages.area.classList.add('success');
       }
+      sessionStorage.setItem("area-validation", messages.area.classList);
     });
   
     // Bdr quantity live validation
@@ -333,6 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messages.bdr_quantity.classList.remove('error');
         messages.bdr_quantity.classList.add('success');
       }
+      sessionStorage.setItem("bedroom_Quantity-validation", messages.bdr_quantity.classList);
     });
   
     // Description live validation
@@ -350,6 +353,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messages.description.classList.remove('error');
         messages.description.classList.add('success');
       }
+      sessionStorage.setItem("description-validation", messages.description.classList);
     });
   
     // Photo live validation
@@ -367,30 +371,54 @@ document.addEventListener('DOMContentLoaded', function () {
   
     // Agent live validation
     const agent = document.getElementById('agent_dropdown');
-    agent.addEventListener('input', ()=> {
-      if (agent.querySelector('#agent_selected_text').innerText === 'აირჩიე აგენტი') {
-        agent.classList.add('error');
-      } else {
-        agent.classList.remove('error');
-      }
-    });
+
+    agent.addEventListener('click', ()=> {
+      agent.classList.remove('error');
+      agent.addEventListener('change', ()=> {
+        if (agent.querySelector('#agent_selected_text').innerText === 'აირჩიე აგენტი') {
+          agent.classList.add('error');
+        } else {
+          agent.classList.remove('error');
+        }
+      });
+    })
     
     //get values from session storage
     window.addEventListener('DOMContentLoaded',() =>{
       const sessionAddress = sessionStorage.getItem('address');
+      const sessionAddressValidation = sessionStorage.getItem('address-validation');
       const sessionZip = sessionStorage.getItem('zip')
+      const sessionZipValidation = sessionStorage.getItem('zip-validation');
       const sessionArea = sessionStorage.getItem('area')
+      const sessionAreaValidation = sessionStorage.getItem('area-validation');
       const sessionPrice = sessionStorage.getItem('price')
-      const sessionDescription = sessionStorage.getItem('description')
+      const sessionPriceValidation = sessionStorage.getItem('price-validation');
       const sessionBdrQuantity = sessionStorage.getItem('bedroom_Quantity')
-      const sessionPhoto = sessionStorage.getItem('photo')
+      const sessionBdrQuantityValidation = sessionStorage.getItem('bedroom_Quantity-validation');
+      const sessionDescription = sessionStorage.getItem('description')
+      const sessionDescriptionValidation = sessionStorage.getItem('description-validation');
+
       address.value = sessionAddress;
+      messages.address.classList = sessionAddressValidation;
       zip.value = sessionZip;
+      messages.zip.classList = sessionZipValidation;
       area.value = sessionArea;
+      messages.area.classList = sessionAreaValidation;
       price.value = sessionPrice;
-      description.value = sessionDescription;
+      messages.price.classList = sessionPriceValidation;
       bdrQuantity.value = sessionBdrQuantity;
+      messages.bdr_quantity.classList = sessionBdrQuantityValidation;
+      description.value = sessionDescription;
+      messages.description.classList = sessionDescriptionValidation;
     })
+
+    document.querySelector('.cancel_button').addEventListener('click', () => {
+      sessionStorage.clear();
+    })
+    document.querySelector('.Logo').addEventListener('click', () => {
+      sessionStorage.clear();
+    })
+
     document.querySelector('.add_listing_button').addEventListener('click', function (event) {
       event.preventDefault();
   
@@ -533,6 +561,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Success:', data);
             window.location.href = '/index.html';
             form.reset();
+            sessionStorage.clear();
           })
           .catch((error) => console.error('Error:', error));
         };

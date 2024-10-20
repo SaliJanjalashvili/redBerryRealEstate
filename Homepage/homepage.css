@@ -412,6 +412,8 @@ h1 {
     justify-content: space-between;
     width: 384px;
     height: 85px;
+    color: #021526;
+    font-weight: 400;
 }
 
 .container label{
@@ -429,7 +431,7 @@ h1 {
     padding: 10px;
 }
 
-.container .message{
+.container .message{ 
     font-weight: 400;
     font-size: 14px;
     line-height: 16.8px;
