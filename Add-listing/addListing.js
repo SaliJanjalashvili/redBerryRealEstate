@@ -133,6 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
   
         selectedRegionId = e.target.dataset.id;
         loadCityOptions(selectedRegionId);
+
+        sessionStorage.setItem('selectedRegionName', e.target.innerText);
+        sessionStorage.setItem('selectedRegionId', selectedRegionId);
+        sessionStorage.setItem('selectedCityName', 'აირჩიე');
       }
     });
   
@@ -168,6 +172,8 @@ document.addEventListener('DOMContentLoaded', function () {
         cityDropdown.style.borderRadius = '6px';
   
         selectedCityId = e.target.dataset.id;
+
+        sessionStorage.setItem('selectedCityName', e.target.innerText);
       };
     });
   
@@ -203,6 +209,9 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedAgentId = e.target.dataset.id;
         agentOptions.style.display = 'block';
         agentDropdown.style.borderRadius = '6px';
+
+        sessionStorage.setItem('selectedAgentName', e.target.innerText);
+        sessionStorage.setItem('selectedAgentId', selectedAgentId);
       }
     });
   
@@ -397,6 +406,25 @@ document.addEventListener('DOMContentLoaded', function () {
       const sessionBdrQuantityValidation = sessionStorage.getItem('bedroom_Quantity-validation');
       const sessionDescription = sessionStorage.getItem('description')
       const sessionDescriptionValidation = sessionStorage.getItem('description-validation');
+
+      const storedRegionName = sessionStorage.getItem('selectedRegionName');
+      const storedRegionId = sessionStorage.getItem('selectedRegionId');
+      const storedCityName = sessionStorage.getItem('selectedCityName');
+      const storedAgentName = sessionStorage.getItem('selectedAgentName');
+
+      if (storedRegionName) {
+        selectedRegionText.innerText = storedRegionName;
+        cityContainer.style.display = 'flex';
+        loadCityOptions(storedRegionId);
+      }
+    
+      if (storedCityName) {
+        selectedCityText.innerText = storedCityName;
+      }
+    
+      if (storedAgentName) {
+        selectedAgentText.innerText = storedAgentName;
+      }
 
       address.value = sessionAddress;
       messages.address.classList = sessionAddressValidation;
